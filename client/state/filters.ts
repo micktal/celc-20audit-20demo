@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 export type Filters = {
   period: "30j" | "90j" | "180j" | "1an";
