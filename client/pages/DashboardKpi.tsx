@@ -119,7 +119,7 @@ export default function DashboardKpi() {
               <EvolutionIncidentsChart />
             </div>
             <div>
-              <TypologieIncidentsChart period={period} filter={{ agence, criticite, typologie }} />
+              <TypologieIncidentsChart />
             </div>
 
             <div className="lg:col-span-1">
