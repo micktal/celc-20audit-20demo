@@ -1,0 +1,5 @@
+[
+  { "impact": 3, "probabilite": 4, "niveau": "Critique" },
+  { "impact": 2, "probabilite": 4, "niveau": "Élevé" },
+  { "impact": 1, "probabilite": 2, "niveau": "Modéré" }
+]
