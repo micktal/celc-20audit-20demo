@@ -6,6 +6,7 @@ import { useAuth } from "@/state/auth";
 import AgenciesMap from "@/components/app/AgenciesMap";
 import AgenciesTable from "@/components/app/AgenciesTable";
 import AgencyDetailsPanel from "@/components/app/AgencyDetailsPanel";
+import IncidentsHeatmap from "@/components/app/IncidentsHeatmap";
 import type { Agency } from "@/components/app/types";
 import React, { useEffect, useState } from "react";
 
