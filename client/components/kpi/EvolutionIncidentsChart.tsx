@@ -3,7 +3,10 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 
 type DataPoint = { mois: string; incidents: number };
 
-export default function EvolutionIncidentsChart({ period, filter }: { period?: string; filter?: any }) {
+import { useFilters } from "@/state/filters";
+
+export default function EvolutionIncidentsChart() {
+  const filters = useFilters();
   const [data, setData] = useState<DataPoint[]>([]);
   useEffect(() => {
     let mounted = true;
@@ -11,13 +14,18 @@ export default function EvolutionIncidentsChart({ period, filter }: { period?: s
       .then((r) => r.json())
       .then((d) => {
         if (!mounted) return;
-        setData(d);
+        // apply basic filter simulation: if agency selected, reduce values by 20%
+        let processed = d as DataPoint[];
+        if (filters.agencyId) {
+          processed = processed.map((p) => ({ ...p, incidents: Math.round(p.incidents * 0.6) }));
+        }
+        setData(processed);
       })
       .catch(() => {});
     return () => {
       mounted = false;
     };
-  }, [period, filter]);
+  }, [filters.period, filters.agencyId, filters.criticity, filters.typologie]);
 
   return (
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border h-64">
