@@ -92,6 +92,13 @@ export default function Dashboard() {
               </ul>
             </aside>
           </section>
+
+          <section className="mt-8">
+            <div className="grid grid-cols-1">
+              <AgenciesMap />
+            </div>
+          </section>
+
         </main>
       </div>
     </div>
