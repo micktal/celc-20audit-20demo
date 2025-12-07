@@ -44,7 +44,7 @@ export default function Documents() {
   }, [allDocs, filter, q]);
 
   const exportAll = () => {
-    const rows = filtered.map((r) => ({ Section: r.section, Name: r.name, Type: r.type || r.version || "", Date: r.date || "", Site: (r as any).site || "", Version: (r as any).version || "", Status: (r as any).status || "" }));
+    const rows = filtered.map((r: any) => ({ Section: r.section, Name: r.name, Type: r.type || r.version || "", Date: r.date || "", Site: r.site || "", Version: r.version || "", Status: r.status || "" }));
     downloadCSV("documents_export.csv", rows);
   };
 
