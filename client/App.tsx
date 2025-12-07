@@ -76,6 +76,15 @@ const App = () => (
               }
             />
 
+            <Route
+              path="/dashboard-kpi"
+              element={
+                <ProtectedRoute>
+                  <DashboardKpi />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
