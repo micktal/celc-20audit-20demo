@@ -2,11 +2,36 @@ import React from "react";
 import SidebarNav from "@/components/app/Sidebar";
 
 const items = [
-  { id: 1, title: "Rapport d'audit SPB", desc: "Rapport complet d'audit SPB" },
-  { id: 2, title: "Analyse PRISCOP consolidée", desc: "Analyse détaillée des résultats PRISCOP" },
-  { id: 3, title: "Matrice de risques", desc: "Matrice des risques et priorisation" },
-  { id: 4, title: "Fiches d'écarts exportables", desc: "Export CSV/Excel des fiches d'écarts" },
-  { id: 5, title: "Plan d'action HQ", desc: "Plan d'action priorisé et détaillé" },
+  {
+    id: 1,
+    title: "Rapport d'audit SPB",
+    desc: "Diagnostic complet SPB – CELC – Version intermédiaire",
+  },
+  {
+    id: 2,
+    title: "Analyse PRISCOP consolidée",
+    desc: "Contrôles permanents N1 / N2 – Évaluation de la robustesse",
+  },
+  {
+    id: 3,
+    title: "Matrice de risques SPB",
+    desc: "Criticité – Probabilité – Capacité de détection",
+  },
+  {
+    id: 4,
+    title: "Fiches d'écarts et preuves associées",
+    desc: "SPB Findings Set – v0.9",
+  },
+  {
+    id: 5,
+    title: "Plan d'amélioration H0 / H1 / H2",
+    desc: "Roadmap SPB – CELC – Version de travail",
+  },
+  {
+    id: 6,
+    title: "Synthèse managériale",
+    desc: "Résumé exécutif – à destination du Directoire",
+  },
 ];
 
 export default function Livrables() {
