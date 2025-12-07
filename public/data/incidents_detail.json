@@ -1,0 +1,62 @@
+[
+  {
+    "id": "i1",
+    "date": "2025-02-01",
+    "heure": "09:15",
+    "type": "Incivilité",
+    "criticite": "H2",
+    "agenceId": "a1",
+    "agenceNom": "Orléans - Les Halles",
+    "ville": "Orléans",
+    "description": "Client mécontent, hausse du ton, intervention du personnel.",
+    "severiteScore": 0.4
+  },
+  {
+    "id": "i2",
+    "date": "2025-02-03",
+    "heure": "16:40",
+    "type": "Intrusion",
+    "criticite": "H1",
+    "agenceId": "a2",
+    "agenceNom": "Tours République",
+    "ville": "Tours",
+    "description": "Individu non autorisé en zone semi-réservée.",
+    "severiteScore": 0.7
+  },
+  {
+    "id": "i3",
+    "date": "2025-02-05",
+    "heure": "11:10",
+    "type": "Vol",
+    "criticite": "H0",
+    "agenceId": "a3",
+    "agenceNom": "Bourges Centre",
+    "ville": "Bourges",
+    "description": "Vol avec menace, appel aux forces de l’ordre.",
+    "severiteScore": 0.95
+  },
+  {
+    "id": "i4",
+    "date": "2025-02-06",
+    "heure": "14:25",
+    "type": "Incivilité",
+    "criticite": "Faible",
+    "agenceId": "a4",
+    "agenceNom": "Blois Victor Hugo",
+    "ville": "Blois",
+    "description": "Remarque agressive, sans impact opérationnel.",
+    "severiteScore": 0.2
+  },
+  {
+    "id": "i5",
+    "date": "2025-02-08",
+    "heure": "18:05",
+    "type": "Agression",
+    "criticite": "H1",
+    "agenceId": "a5",
+    "agenceNom": "Chartres Clémenceau",
+    "ville": "Chartres",
+    "description": "Agression verbale, intervention sécurité nécessaire.",
+    "severiteScore": 0.75
+  }
+]
