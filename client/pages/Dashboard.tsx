@@ -29,6 +29,9 @@ export default function Dashboard() {
   };
 
   const { logout } = useAuth();
+  const [reloadKey, setReloadKey] = React.useState(0);
+
+  const reloadAgencies = () => setReloadKey((k) => k + 1);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--light-grey))]">
