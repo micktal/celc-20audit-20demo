@@ -33,6 +33,7 @@ export const SidebarNav: React.FC = () => {
         <NavItem to="/plan-action" label="Plan d'action" />
         <NavItem to="/livrables" label="Livrables" />
         <NavItem to="/dashboard-kpi" label="KPI SPB" />
+        <NavItem to="/analyse-incidents" label="Analyse incidents" />
       </nav>
     </aside>
   );
