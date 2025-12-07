@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import MarkerClusterWrapper from "./MarkerClusterWrapper";
 import type { LatLngExpression } from "leaflet";
+import { useFilters } from "@/state/filters";
 
 type AgencyStatus = "Treated" | "InProgress" | "ToDo";
 
