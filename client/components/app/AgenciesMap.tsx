@@ -151,30 +151,30 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
               const radius = isSelected ? 14 : isAnimated ? 16 : 10;
               const color = isSelected ? "#3498DB" : colorByStatus(a.status);
 
-              return (
-                <div
-                  key={a.id}
-                  center={[a.lat, a.lng]}
-                  radius={radius}
-                  color={color}
-                  fillColor={colorByStatus(a.status)}
-                  fillOpacity={isSelected ? 1 : 0.85}
-                  weight={isSelected ? 2 : 0}
-                  agencyId={a.id}
-                  tooltip={`${a.name} – ${a.city}\n${labelFr(a.status)}`}
-                  onClick={() => {
-                    setAnimatedId(a.id);
-                    setTimeout(() => setAnimatedId(null), 300);
-                    if (onSelectAgency) onSelectAgency(a);
-                    // dispatch custom event to make the cluster wrapper reveal the marker
-                    window.dispatchEvent(new CustomEvent("zoomToAgency", { detail: a.id }));
-                    // also fly the map to the marker
-                    try {
-                      if (mapRef.current) mapRef.current.flyTo([a.lat, a.lng], 12, { duration: 0.4 });
-                    } catch {}
-                  }}
-                />
-              );
+              const props: any = {
+                key: a.id,
+                center: [a.lat, a.lng],
+                radius,
+                color,
+                fillColor: colorByStatus(a.status),
+                fillOpacity: isSelected ? 1 : 0.85,
+                weight: isSelected ? 2 : 0,
+                agencyId: a.id,
+                tooltip: `${a.name} – ${a.city}\n${labelFr(a.status)}`,
+                onClick: () => {
+                  setAnimatedId(a.id);
+                  setTimeout(() => setAnimatedId(null), 300);
+                  if (onSelectAgency) onSelectAgency(a);
+                  // dispatch custom event to make the cluster wrapper reveal the marker
+                  window.dispatchEvent(new CustomEvent("zoomToAgency", { detail: a.id }));
+                  // also fly the map to the marker
+                  try {
+                    if (mapRef.current) mapRef.current.flyTo([a.lat, a.lng], 12, { duration: 0.4 });
+                  } catch {}
+                },
+              };
+
+              return React.createElement("div", props);
             })}
           </MarkerClusterWrapper>
         </MapContainer>
