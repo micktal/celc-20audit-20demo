@@ -135,6 +135,11 @@ export default function Dashboard() {
 
               {selectedAgency && <AgencyDetailsPanel agency={selectedAgency} onClose={() => setSelectedAgency(null)} />}
             </div>
+
+          </section>
+
+          <section className="mt-8">
+            <IncidentsHeatmap />
           </section>
 
           <section className="mt-8">
