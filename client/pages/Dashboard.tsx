@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SidebarNav from "@/components/app/Sidebar";
 import KpiCard from "@/components/app/KpiCard";
 import { useAuth } from "@/state/auth";
+import AgenciesMap from "@/components/app/AgenciesMap";
 
 export default function Dashboard() {
   const kpis = [
