@@ -37,7 +37,10 @@ function HeatLayer({ points }: { points: [number, number, number][] }) {
   return null;
 }
 
+import { useFilters } from "@/state/filters";
+
 export default function IncidentsHeatmap() {
+  const filters = useFilters();
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -55,8 +58,23 @@ export default function IncidentsHeatmap() {
       .then((data) => {
         if (!mounted) return;
         const parsed = (data || []).map((d: any) => ({ lat: Number(d.lat), lng: Number(d.lng), severite: Math.max(0, Math.min(1, Number(d.severite) || 0)) }));
-        setIncidents(parsed);
-        setLoading(false);
+        // apply simple filter: if agency selected, keep only near incidents
+        if (filters.agencyId) {
+          // load agencies to find coords
+          fetch('/data/agences.json').then(r=>r.json()).then((ags)=>{
+            const a = (ags||[]).find((x:any)=>x.id===filters.agencyId);
+            if (a) {
+              const near = parsed.filter((p:any)=>Math.hypot(p.lat - a.lat, p.lng - a.lng) < 0.5);
+              setIncidents(near);
+            } else {
+              setIncidents(parsed);
+            }
+            setLoading(false);
+          }).catch(()=>{ setIncidents(parsed); setLoading(false); });
+        } else {
+          setIncidents(parsed);
+          setLoading(false);
+        }
       })
       .catch(() => {
         if (!mounted) return;
@@ -67,7 +85,7 @@ export default function IncidentsHeatmap() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [filters.period, filters.agencyId, filters.criticity, filters.typologie]);
 
   const points = incidents.map((i) => [i.lat, i.lng, i.severite] as [number, number, number]);
 
