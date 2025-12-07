@@ -95,8 +95,8 @@ export default function Dashboard() {
             ))}
           </section>
 
-          <section className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-white p-6 rounded-lg border border-border">
+          <section className="mt-8">
+            <div className="grid grid-cols-1 mb-6">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-semibold">Timeline projet</h3>
@@ -118,23 +118,22 @@ export default function Dashboard() {
                   </li>
                 ))}
               </ol>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link to="/documents" className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white text-sm">Documents</Link>
-                <Link to="/ecarts" className="px-3 py-2 rounded-md border border-border text-sm">Fiches d'écarts</Link>
-                <Link to="/plan-action" className="px-3 py-2 rounded-md border border-border text-sm">Plan d’Action</Link>
-                <Link to="/livrables" className="px-3 py-2 rounded-md border border-border text-sm">Livrables</Link>
-              </div>
             </div>
 
-            <aside className="bg-white p-4 rounded-lg border border-border">
-              <h4 className="font-semibold">Messages d’état</h4>
-              <ul className="mt-3 text-sm text-[hsl(var(--fiducial-grey))] space-y-2">
-                <li>{messages.planning}</li>
-                <li>{messages.incidents}</li>
-                <li>{messages.attention}</li>
-              </ul>
-            </aside>
+            <div className="flex gap-6 items-start">
+              <div className="flex-1" style={{ minWidth: 0 }}>
+                <AgenciesMap agencies={agencies} reloadKey={reloadKey} selectedAgencyId={selectedAgency?.id || null} onSelectAgency={(a) => setSelectedAgency(a)} />
+              </div>
+
+              <div style={{ width: 420 }}>
+                <AgenciesTable agencies={agencies} selectedAgencyId={selectedAgency?.id || null} onSelectAgency={(id) => {
+                  const match = agencies.find((x) => x.id === id);
+                  setSelectedAgency(match || null);
+                }} />
+              </div>
+
+              {selectedAgency && <AgencyDetailsPanel agency={selectedAgency} onClose={() => setSelectedAgency(null)} />}
+            </div>
           </section>
 
           <section className="mt-8">
