@@ -23,9 +23,11 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "zod": "^3.25.76",
     "leaflet": "^1.9.4",
-    "react-leaflet": "^4.2.1"
+    "leaflet.markercluster": "^1.5.3",
+    "react-leaflet": "^4.2.1",
+    "react-leaflet-markercluster": "5.0.0-rc.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@hookform/resolvers": "^5.2.1",
