@@ -26,7 +26,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-[hsl(var(--light-grey))] p-4">
       <div className="max-w-md w-full bg-white rounded-xl shadow-md border border-border p-8">
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-md bg-[hsl(var(--bg))] flex items-center justify-center text-white font-bold">F</div>
+          <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fd8ddee4c297645b1bb027a8ab82cbe7a?format=webp&width=800" alt="FIDUCIAL logo" className="h-12 w-12 object-contain" />
           <div>
             <h1 className="text-lg font-bold">FIDUCIAL Sécurité Conseil</h1>
             <p className="text-sm text-[hsl(var(--fiducial-grey))]">Audit Tracking Portal – SPB &amp; PRISCOP</p>
