@@ -19,10 +19,11 @@ type KpiData = {
 export default function DashboardKpi() {
   const [kpi, setKpi] = useState<KpiData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [period, setPeriod] = useState("30j");
-  const [agence, setAgence] = useState("Toutes");
-  const [criticite, setCriticite] = useState("Tous");
-  const [typologie, setTypologie] = useState("Tous");
+  const filters = useFilters();
+  const period = filters.period;
+  const agence = filters.agencyId || "Toutes";
+  const criticite = filters.criticity === "All" ? "Tous" : filters.criticity;
+  const typologie = filters.typologie === "All" ? "Tous" : filters.typologie;
 
   useEffect(() => {
     let mounted = true;
