@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SidebarNav from "@/components/app/Sidebar";
 import KpiCard from "@/components/app/KpiCard";
@@ -8,7 +8,6 @@ import AgenciesTable from "@/components/app/AgenciesTable";
 import AgencyDetailsPanel from "@/components/app/AgencyDetailsPanel";
 import IncidentsHeatmap from "@/components/app/IncidentsHeatmap";
 import type { Agency } from "@/components/app/types";
-import React, { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const kpis = [
