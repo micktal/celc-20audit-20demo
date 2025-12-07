@@ -15,6 +15,7 @@ import Ecarts from "./pages/Ecarts";
 import PlanAction from "./pages/PlanAction";
 import Livrables from "./pages/Livrables";
 import DashboardKpi from "./pages/DashboardKpi";
+import AnalyseIncidents from "./pages/analyse-incidents";
 import { AuthProvider } from "@/state/auth";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
