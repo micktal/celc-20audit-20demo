@@ -97,8 +97,15 @@ export default function Dashboard() {
           </section>
 
           <section className="mt-8">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold">Cartographie des agences auditées</h3>
+              <div>
+                <button onClick={reloadAgencies} className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white text-sm">Recharger les données agences</button>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1">
-              <AgenciesMap />
+              <AgenciesMap reloadKey={reloadKey} />
             </div>
           </section>
 
