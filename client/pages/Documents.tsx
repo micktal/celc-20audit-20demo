@@ -1,26 +1,3 @@
-import React from "react";
-import SidebarNav from "@/components/app/Sidebar";
-
-const fournis = [
-  { id: "f1", name: "Cartographie SPB 2024", type: "PDF", version: "v1.0", date: "15/02/2025" },
-  { id: "f2", name: "DUERP – Siège", type: "PDF", version: "v2.1", date: "03/02/2025" },
-  { id: "f3", name: "Procédure Incivilités", type: "PDF", version: "v1.4", date: "18/01/2025" },
-  { id: "f4", name: "PRISCOP N1 – Janvier", type: "XLS", version: "v1.0", date: "05/02/2025" },
-];
-
-const collectes = [
-  { id: "c1", name: "Plan d’implantation – Agence A", type: "PDF", site: "Agence A", date: "20/02/2025" },
-  { id: "c2", name: "Registre incidents 2024", type: "XLS", site: "Agence B", date: "22/02/2025" },
-  { id: "c3", name: "Photos angles morts", type: "PNG", site: "Agence C", date: "24/02/2025" },
-  { id: "c4", name: "Check-list SSI", type: "PDF", site: "Agence D", date: "25/02/2025" },
-];
-
-const interm = [
-  { id: "i1", name: "Synthèse d’étape SPB", type: "PDF", status: "Publié", date: "26/02/2025" },
-  { id: "i2", name: "État d’avancement PRISCOP", type: "PDF", status: "Publié", date: "27/02/2025" },
-  { id: "i3", name: "Note incidents & signaux faibles", type: "PDF", status: "En revue", date: "28/02/2025" },
-];
-
 import React, { useMemo, useState } from "react";
 import SidebarNav from "@/components/app/Sidebar";
 import { downloadCSV } from "@/lib/utils";
