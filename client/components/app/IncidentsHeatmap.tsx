@@ -109,7 +109,7 @@ export default function IncidentsHeatmap() {
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
       <h3 className="text-lg font-semibold mb-3">Heatmap des incidents SPB</h3>
       <div style={{ height: 420, width: "100%", borderRadius: 16, overflow: "hidden" }}>
-        <MapContainer center={center} zoom={7} style={{ height: "100%", width: "100%" }}>
+        <MapContainer whenReady={(map) => {}} center={center as any} zoom={7} style={{ height: "100%", width: "100%" }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <HeatLayer points={points} />
         </MapContainer>
