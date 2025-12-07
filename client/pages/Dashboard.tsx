@@ -4,6 +4,10 @@ import SidebarNav from "@/components/app/Sidebar";
 import KpiCard from "@/components/app/KpiCard";
 import { useAuth } from "@/state/auth";
 import AgenciesMap from "@/components/app/AgenciesMap";
+import AgenciesTable from "@/components/app/AgenciesTable";
+import AgencyDetailsPanel from "@/components/app/AgencyDetailsPanel";
+import type { Agency } from "@/components/app/types";
+import React, { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const kpis = [
