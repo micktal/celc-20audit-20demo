@@ -49,6 +49,8 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
   const [animatedId, setAnimatedId] = useState<string | null>(null);
   const mapRef = React.useRef<any>(null);
 
+  const filters = useFilters();
+
   useEffect(() => {
     if (agenciesProp && agenciesProp.length) {
       setAgencies(agenciesProp);
@@ -95,6 +97,16 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
       mounted = false;
     };
   }, [agenciesProp, reloadKey]);
+
+  useEffect(() => {
+    if (!filters.agencyId) return;
+    const a = agencies.find((x) => x.id === filters.agencyId);
+    if (a && mapRef.current) {
+      try {
+        mapRef.current.flyTo([a.lat, a.lng], 12, { duration: 0.4 });
+      } catch {}
+    }
+  }, [filters.agencyId, agencies]);
 
   useEffect(() => {
     if (!mapRef.current) return;
