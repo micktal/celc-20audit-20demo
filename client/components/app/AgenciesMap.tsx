@@ -149,8 +149,10 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
       <h3 className="text-lg font-semibold mb-3">Cartographie des agences auditées</h3>
       <div style={{ height: 420, width: "100%", borderRadius: 16, overflow: "hidden" }}>
-        <MapContainer whenReady={(map) => (mapRef.current = map)} center={center} zoom={7} style={{ height: "100%", width: "100%" }}>
+        <MapContainer center={center} zoom={7} style={{ height: "100%", width: "100%" }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {/* set mapRef using a small child component */}
+          <MapRefSetter />
 
           {/* Use MarkerClusterWrapper to manage clustering with leaflet.markercluster */}
           {/* Children are simple div elements carrying marker props which the wrapper reads */}
