@@ -1,0 +1,8 @@
+[
+  { "mois": "Jan", "incidents": 10 },
+  { "mois": "Fév", "incidents": 15 },
+  { "mois": "Mar", "incidents": 20 },
+  { "mois": "Avr", "incidents": 18 },
+  { "mois": "Mai", "incidents": 22 },
+  { "mois": "Jun", "incidents": 14 }
+]
