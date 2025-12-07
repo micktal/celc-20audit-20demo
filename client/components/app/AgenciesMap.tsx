@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
+import MarkerClusterWrapper from "./MarkerClusterWrapper";
 import type { LatLngExpression } from "leaflet";
 
 type AgencyStatus = "Treated" | "InProgress" | "ToDo";
