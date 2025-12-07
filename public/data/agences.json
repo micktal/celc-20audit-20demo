@@ -1,0 +1,7 @@
+[
+  { "id": "a1", "name": "Orléans - Les Halles", "city": "Orléans", "lat": 47.9029, "lng": 1.9093, "status": "Treated" },
+  { "id": "a2", "name": "Tours République", "city": "Tours", "lat": 47.3941, "lng": 0.6848, "status": "InProgress" },
+  { "id": "a3", "name": "Bourges Centre", "city": "Bourges", "lat": 47.0826, "lng": 2.3988, "status": "ToDo" },
+  { "id": "a4", "name": "Blois Victor Hugo", "city": "Blois", "lat": 47.5861, "lng": 1.329, "status": "Treated" },
+  { "id": "a5", "name": "Chartres Clémenceau", "city": "Chartres", "lat": 48.4464, "lng": 1.489, "status": "ToDo" }
+]
