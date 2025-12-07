@@ -141,40 +141,41 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {agencies.map((a) => {
-            const isSelected = !!selectedAgencyId && a.id === selectedAgencyId;
-            const isAnimated = animatedId === a.id;
-            const radius = isSelected ? 14 : isAnimated ? 16 : 10;
-            const pathOpts: any = {
-              color: isSelected ? "#3498DB" : colorByStatus(a.status),
-              fillColor: colorByStatus(a.status),
-              fillOpacity: isSelected ? 1 : 0.85,
-              weight: isSelected ? 2 : 0,
-            };
+          {/* Use MarkerClusterWrapper to manage clustering with leaflet.markercluster */}
+          {/* Children are simple div elements carrying marker props which the wrapper reads */}
+          <MarkerClusterWrapper>
+            {agencies.map((a) => {
+              const isSelected = !!selectedAgencyId && a.id === selectedAgencyId;
+              const isAnimated = animatedId === a.id;
+              const radius = isSelected ? 14 : isAnimated ? 16 : 10;
+              const color = isSelected ? "#3498DB" : colorByStatus(a.status);
 
-            return (
-              <CircleMarker
-                key={a.id}
-                center={[a.lat, a.lng]}
-                radius={radius}
-                pathOptions={pathOpts}
-                eventHandlers={{
-                  click: () => {
+              return (
+                <div
+                  key={a.id}
+                  center={[a.lat, a.lng]}
+                  radius={radius}
+                  color={color}
+                  fillColor={colorByStatus(a.status)}
+                  fillOpacity={isSelected ? 1 : 0.85}
+                  weight={isSelected ? 2 : 0}
+                  agencyId={a.id}
+                  tooltip={`${a.name} – ${a.city}\n${labelFr(a.status)}`}
+                  onClick={() => {
                     setAnimatedId(a.id);
                     setTimeout(() => setAnimatedId(null), 300);
                     if (onSelectAgency) onSelectAgency(a);
-                  },
-                }}
-              >
-                <Tooltip direction="top" offset={[0, -10]}>
-                  <div className="text-sm">
-                    <div className="font-medium">{a.name} – {a.city}</div>
-                    <div className="text-xs">{labelFr(a.status)}</div>
-                  </div>
-                </Tooltip>
-              </CircleMarker>
-            );
-          })}
+                    // dispatch custom event to make the cluster wrapper reveal the marker
+                    window.dispatchEvent(new CustomEvent("zoomToAgency", { detail: a.id }));
+                    // also fly the map to the marker
+                    try {
+                      if (mapRef.current) mapRef.current.flyTo([a.lat, a.lng], 12, { duration: 0.4 });
+                    } catch {}
+                  }}
+                />
+              );
+            })}
+          </MarkerClusterWrapper>
         </MapContainer>
       </div>
 
