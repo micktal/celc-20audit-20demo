@@ -123,7 +123,7 @@ export default function DashboardKpi() {
             </div>
 
             <div className="lg:col-span-1">
-              <CriticiteDonut period={period} filter={{ agence, criticite, typologie }} />
+              <CriticiteDonut />
             </div>
 
             <div className="lg:col-span-2">
