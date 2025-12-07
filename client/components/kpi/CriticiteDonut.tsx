@@ -18,7 +18,10 @@ export default function CriticiteDonut() {
         if (!mounted) return;
         let processed = d as DataPoint[];
         if (filters.typologie !== "All") {
-          processed = processed.map((p) => ({ ...p, value: Math.round(p.value * 0.9) }));
+          processed = processed.map((p) => ({
+            ...p,
+            value: Math.round(p.value * 0.9),
+          }));
         }
         setData(processed);
       })
@@ -33,7 +36,13 @@ export default function CriticiteDonut() {
       <h4 className="font-semibold mb-2">Répartition par criticité</h4>
       <ResponsiveContainer width="100%" height="85%">
         <PieChart>
-          <Pie dataKey="value" data={data} innerRadius={50} outerRadius={80} paddingAngle={2}>
+          <Pie
+            dataKey="value"
+            data={data}
+            innerRadius={50}
+            outerRadius={80}
+            paddingAngle={2}
+          >
             {data.map((_, i) => (
               <Cell key={i} fill={COLORS[i % COLORS.length]} />
             ))}

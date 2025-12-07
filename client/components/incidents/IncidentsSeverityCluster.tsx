@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import {
+  ScatterChart,
+  Scatter,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
 import { useFilters } from "@/state/filters";
 
 type Incident = {
@@ -32,13 +40,29 @@ export default function IncidentsSeverityCluster() {
         let filtered = items.slice();
         // period
         const now = new Date();
-        const periodDays = filters.period === "30j" ? 30 : filters.period === "90j" ? 90 : filters.period === "180j" ? 180 : 365;
-        const cutoff = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
-        filtered = filtered.filter((it) => toTimestamp(it.date) >= cutoff.getTime());
+        const periodDays =
+          filters.period === "30j"
+            ? 30
+            : filters.period === "90j"
+              ? 90
+              : filters.period === "180j"
+                ? 180
+                : 365;
+        const cutoff = new Date(
+          now.getTime() - periodDays * 24 * 60 * 60 * 1000,
+        );
+        filtered = filtered.filter(
+          (it) => toTimestamp(it.date) >= cutoff.getTime(),
+        );
 
-        if (filters.agencyId) filtered = filtered.filter((it) => it.agenceId === filters.agencyId);
-        if (filters.criticity !== "All") filtered = filtered.filter((it) => it.criticite === filters.criticity);
-        if (filters.typologie !== "All") filtered = filtered.filter((it) => it.type === filters.typologie);
+        if (filters.agencyId)
+          filtered = filtered.filter((it) => it.agenceId === filters.agencyId);
+        if (filters.criticity !== "All")
+          filtered = filtered.filter(
+            (it) => it.criticite === filters.criticity,
+          );
+        if (filters.typologie !== "All")
+          filtered = filtered.filter((it) => it.type === filters.typologie);
 
         const mapped = filtered.map((it) => ({
           x: toTimestamp(it.date, it.heure),
@@ -96,7 +120,10 @@ export default function IncidentsSeverityCluster() {
             cursor={{ strokeDasharray: "3 3" }}
             formatter={(value: any, name: any, props: any) => {
               const payload = props?.payload;
-              return [`${payload.date} ${payload.heure} — ${payload.type} — ${payload.criticite}`, "Détails"];
+              return [
+                `${payload.date} ${payload.heure} — ${payload.type} — ${payload.criticite}`,
+                "Détails",
+              ];
             }}
           />
 
@@ -106,10 +133,21 @@ export default function IncidentsSeverityCluster() {
               fill="#8884d8"
               shape={(props) => {
                 const { payload, cx, cy } = props as any;
-                const size = payload.criticite === "H0" || payload.criticite === "H1" ? 10 : 6;
+                const size =
+                  payload.criticite === "H0" || payload.criticite === "H1"
+                    ? 10
+                    : 6;
                 const color = colorOf(payload.criticite);
                 return (
-                  <circle cx={cx} cy={cy} r={size} fill={color} fillOpacity={0.9} stroke="#fff" strokeWidth={1} />
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={size}
+                    fill={color}
+                    fillOpacity={0.9}
+                    stroke="#fff"
+                    strokeWidth={1}
+                  />
                 );
               }}
             />

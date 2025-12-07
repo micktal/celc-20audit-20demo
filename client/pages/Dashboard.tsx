@@ -11,19 +11,53 @@ import type { Agency } from "@/components/app/types";
 
 export default function Dashboard() {
   const kpis = [
-    { label: "Audit des sites", value: "12 / 18 agences visitées", variant: "primary" },
+    {
+      label: "Audit des sites",
+      value: "12 / 18 agences visitées",
+      variant: "primary",
+    },
     { label: "Avancement global", value: "68%" },
     { label: "Documents collectés", value: "42 / 56" },
     { label: "Évaluation PRISCOP", value: "54% complétée", variant: "accent" },
   ];
 
   const timeline = [
-    { week: "Semaine 1", title: "Cadrage & Collecte documentaire", status: "Terminé", ok: true },
-    { week: "Semaine 2", title: "Lancement des audits terrain", status: "Terminé", ok: true },
-    { week: "Semaine 3", title: "Audits en cours", status: "8 agences restantes", ok: false },
-    { week: "Semaine 4", title: "Analyse SPB + étude des incidents", status: "En préparation", ok: false },
-    { week: "Semaine 5", title: "Revue PRISCOP + consolidation", status: "À venir", ok: false },
-    { week: "Semaine 6", title: "Livrables & restitution", status: "Planifié", ok: false },
+    {
+      week: "Semaine 1",
+      title: "Cadrage & Collecte documentaire",
+      status: "Terminé",
+      ok: true,
+    },
+    {
+      week: "Semaine 2",
+      title: "Lancement des audits terrain",
+      status: "Terminé",
+      ok: true,
+    },
+    {
+      week: "Semaine 3",
+      title: "Audits en cours",
+      status: "8 agences restantes",
+      ok: false,
+    },
+    {
+      week: "Semaine 4",
+      title: "Analyse SPB + étude des incidents",
+      status: "En préparation",
+      ok: false,
+    },
+    {
+      week: "Semaine 5",
+      title: "Revue PRISCOP + consolidation",
+      status: "À venir",
+      ok: false,
+    },
+    {
+      week: "Semaine 6",
+      title: "Livrables & restitution",
+      status: "Planifié",
+      ok: false,
+    },
   ];
 
   const messages = {
@@ -58,7 +92,12 @@ export default function Dashboard() {
           city: String(d.city || ""),
           lat: Number(d.lat),
           lng: Number(d.lng),
-          status: d.status === "Treated" || d.status === "InProgress" || d.status === "ToDo" ? d.status : "ToDo",
+          status:
+            d.status === "Treated" ||
+            d.status === "InProgress" ||
+            d.status === "ToDo"
+              ? d.status
+              : "ToDo",
         }));
         setAgencies(parsed);
         setLoadingAgencies(false);
@@ -82,16 +121,28 @@ export default function Dashboard() {
           <header className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl font-bold">Audit SPB & PRISCOP – CELC</h2>
-              <p className="text-sm text-[hsl(var(--fiducial-grey))]">Mission en cours</p>
+              <p className="text-sm text-[hsl(var(--fiducial-grey))]">
+                Mission en cours
+              </p>
             </div>
             <div className="flex items-center gap-4">
-              <button onClick={logout} className="text-sm text-[hsl(var(--fiducial-grey))]">Se déconnecter</button>
+              <button
+                onClick={logout}
+                className="text-sm text-[hsl(var(--fiducial-grey))]"
+              >
+                Se déconnecter
+              </button>
             </div>
           </header>
 
           <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {kpis.map((k, i) => (
-              <KpiCard key={i} label={k.label} value={k.value as any} variant={(k as any).variant} />
+              <KpiCard
+                key={i}
+                label={k.label}
+                value={k.value as any}
+                variant={(k as any).variant}
+              />
             ))}
           </section>
 
@@ -100,20 +151,30 @@ export default function Dashboard() {
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-semibold">Timeline projet</h3>
-                  <p className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">Suivi des jalons et état d’avancement</p>
+                  <p className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">
+                    Suivi des jalons et état d’avancement
+                  </p>
                 </div>
-                <div className="text-sm text-[hsl(var(--fiducial-grey))]">Dernière mise à jour: 28/02/2025</div>
+                <div className="text-sm text-[hsl(var(--fiducial-grey))]">
+                  Dernière mise à jour: 28/02/2025
+                </div>
               </div>
 
               <ol className="mt-4 space-y-3">
                 {timeline.map((t, idx) => (
                   <li key={idx} className="flex items-center gap-3">
-                    <div className={`h-8 w-8 flex items-center justify-center rounded-full ${t.ok ? "bg-green-600 text-white" : "bg-gray-100 text-[hsl(var(--fiducial-grey))]"}`}>
+                    <div
+                      className={`h-8 w-8 flex items-center justify-center rounded-full ${t.ok ? "bg-green-600 text-white" : "bg-gray-100 text-[hsl(var(--fiducial-grey))]"}`}
+                    >
                       {t.ok ? "✔" : idx === 2 ? "…" : "•"}
                     </div>
                     <div>
-                      <div className="text-sm font-medium">{t.week} – {t.title}</div>
-                      <div className="text-xs text-[hsl(var(--fiducial-grey))]">{t.status}</div>
+                      <div className="text-sm font-medium">
+                        {t.week} – {t.title}
+                      </div>
+                      <div className="text-xs text-[hsl(var(--fiducial-grey))]">
+                        {t.status}
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -122,19 +183,32 @@ export default function Dashboard() {
 
             <div className="flex gap-6 items-start">
               <div className="flex-1" style={{ minWidth: 0 }}>
-                <AgenciesMap agencies={agencies} reloadKey={reloadKey} selectedAgencyId={selectedAgency?.id || null} onSelectAgency={(a) => setSelectedAgency(a)} />
+                <AgenciesMap
+                  agencies={agencies}
+                  reloadKey={reloadKey}
+                  selectedAgencyId={selectedAgency?.id || null}
+                  onSelectAgency={(a) => setSelectedAgency(a)}
+                />
               </div>
 
               <div style={{ width: 420 }}>
-                <AgenciesTable agencies={agencies} selectedAgencyId={selectedAgency?.id || null} onSelectAgency={(id) => {
-                  const match = agencies.find((x) => x.id === id);
-                  setSelectedAgency(match || null);
-                }} />
+                <AgenciesTable
+                  agencies={agencies}
+                  selectedAgencyId={selectedAgency?.id || null}
+                  onSelectAgency={(id) => {
+                    const match = agencies.find((x) => x.id === id);
+                    setSelectedAgency(match || null);
+                  }}
+                />
               </div>
 
-              {selectedAgency && <AgencyDetailsPanel agency={selectedAgency} onClose={() => setSelectedAgency(null)} />}
+              {selectedAgency && (
+                <AgencyDetailsPanel
+                  agency={selectedAgency}
+                  onClose={() => setSelectedAgency(null)}
+                />
+              )}
             </div>
-
           </section>
 
           <section className="mt-8">
@@ -143,9 +217,16 @@ export default function Dashboard() {
 
           <section className="mt-8">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold">Cartographie des agences auditées</h3>
+              <h3 className="text-lg font-semibold">
+                Cartographie des agences auditées
+              </h3>
               <div>
-                <button onClick={reloadAgencies} className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white text-sm">Recharger les données agences</button>
+                <button
+                  onClick={reloadAgencies}
+                  className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white text-sm"
+                >
+                  Recharger les données agences
+                </button>
               </div>
             </div>
 
@@ -153,7 +234,6 @@ export default function Dashboard() {
               <AgenciesMap reloadKey={reloadKey} />
             </div>
           </section>
-
         </main>
       </div>
     </div>

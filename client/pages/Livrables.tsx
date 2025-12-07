@@ -42,18 +42,27 @@ export default function Livrables() {
         <main className="flex-1 p-6">
           <header className="mb-6">
             <h2 className="text-2xl font-bold">Livrables Finaux</h2>
-            <p className="text-sm text-[hsl(var(--fiducial-grey))]">Téléchargements centralisés</p>
+            <p className="text-sm text-[hsl(var(--fiducial-grey))]">
+              Téléchargements centralisés
+            </p>
           </header>
 
           <div className="grid gap-4">
             {items.map((it) => (
-              <div key={it.id} className="bg-white p-4 rounded-lg border border-border flex items-center justify-between">
+              <div
+                key={it.id}
+                className="bg-white p-4 rounded-lg border border-border flex items-center justify-between"
+              >
                 <div>
                   <div className="font-semibold">{it.title}</div>
-                  <div className="text-sm text-[hsl(var(--fiducial-grey))]">{it.desc}</div>
+                  <div className="text-sm text-[hsl(var(--fiducial-grey))]">
+                    {it.desc}
+                  </div>
                 </div>
                 <div>
-                  <button className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white text-sm">Télécharger</button>
+                  <button className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white text-sm">
+                    Télécharger
+                  </button>
                 </div>
               </div>
             ))}

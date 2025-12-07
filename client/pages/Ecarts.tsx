@@ -9,7 +9,8 @@ const ecarts = [
     site: "Agence Les Halles",
     titre: "Vidéo hors champ",
     criticite: "Haute",
-    ecart: "Caméra entrée secondaire ne couvre pas l’espace distributeur interne.",
+    ecart:
+      "Caméra entrée secondaire ne couvre pas l’espace distributeur interne.",
     impact: "Risque probatoire en cas d’incident.",
     statut: "Ouvert",
     proofs: ["photo1.jpg", "video1.mp4"],
@@ -19,7 +20,8 @@ const ecarts = [
     site: "Agence République",
     titre: "Posture sécuritaire insuffisante",
     criticite: "Moyenne",
-    ecart: "Accueil non conforme à la posture SPB (téléphone + documentation interne visible).",
+    ecart:
+      "Accueil non conforme à la posture SPB (téléphone + documentation interne visible).",
     statut: "En cours",
     proofs: [],
   },
@@ -67,7 +69,13 @@ export default function Ecarts() {
   };
 
   const exportAll = () => {
-    const rows = ecarts.map((e) => ({ Ref: e.id, Site: e.site, Ecart: e.titre, Criticite: e.criticite, Statut: e.statut }));
+    const rows = ecarts.map((e) => ({
+      Ref: e.id,
+      Site: e.site,
+      Ecart: e.titre,
+      Criticite: e.criticite,
+      Statut: e.statut,
+    }));
     downloadCSV("ecarts_export.csv", rows);
   };
 
@@ -89,16 +97,27 @@ export default function Ecarts() {
         <main className="flex-1 p-6">
           <header className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold">Fiches d'écarts & Observations</h2>
-              <p className="text-sm text-[hsl(var(--fiducial-grey))]">SPB et PRISCOP - observations techniques et organisationnelles</p>
+              <h2 className="text-2xl font-bold">
+                Fiches d'écarts & Observations
+              </h2>
+              <p className="text-sm text-[hsl(var(--fiducial-grey))]">
+                SPB et PRISCOP - observations techniques et organisationnelles
+              </p>
             </div>
             <div className="flex items-center gap-3">
-              <button onClick={exportAll} className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white">Exporter CSV</button>
+              <button
+                onClick={exportAll}
+                className="px-3 py-2 rounded-md bg-[hsl(var(--bg))] text-white"
+              >
+                Exporter CSV
+              </button>
             </div>
           </header>
 
           <div className="bg-white p-4 rounded-lg border border-border">
-            <div className="mb-4 text-sm text-[hsl(var(--fiducial-grey))] font-medium">Encadré rouge: alertes critiques</div>
+            <div className="mb-4 text-sm text-[hsl(var(--fiducial-grey))] font-medium">
+              Encadré rouge: alertes critiques
+            </div>
 
             <div className="overflow-auto">
               <table className="w-full text-left text-sm">
@@ -115,17 +134,39 @@ export default function Ecarts() {
                 </thead>
                 <tbody>
                   {ecarts.map((e) => (
-                    <tr key={e.id} className={`border-t ${e.criticite === "Haute" ? "bg-red-50" : ""}`}>
+                    <tr
+                      key={e.id}
+                      className={`border-t ${e.criticite === "Haute" ? "bg-red-50" : ""}`}
+                    >
                       <td className="py-2 px-3">{e.id}</td>
                       <td className="py-2 px-3">{e.site}</td>
                       <td className="py-2 px-3">{e.titre}</td>
                       <td className="py-2 px-3">{e.criticite}</td>
-                      <td className="py-2 px-3">{e.ecart} {e.impact ? <div className="text-xs text-[hsl(var(--fiducial-grey))] mt-1">{e.impact}</div> : null}</td>
+                      <td className="py-2 px-3">
+                        {e.ecart}{" "}
+                        {e.impact ? (
+                          <div className="text-xs text-[hsl(var(--fiducial-grey))] mt-1">
+                            {e.impact}
+                          </div>
+                        ) : null}
+                      </td>
                       <td className="py-2 px-3">{e.statut}</td>
                       <td className="py-2 px-3">
                         <div className="flex items-center gap-2">
-                          <button onClick={() => openModal(e)} className="text-sm text-[hsl(var(--bg))]">Voir</button>
-                          <button className="text-sm text-[hsl(var(--bg))]" onClick={() => e.proofs?.length && downloadProof(e.proofs[0])}>Télécharger preuve</button>
+                          <button
+                            onClick={() => openModal(e)}
+                            className="text-sm text-[hsl(var(--bg))]"
+                          >
+                            Voir
+                          </button>
+                          <button
+                            className="text-sm text-[hsl(var(--bg))]"
+                            onClick={() =>
+                              e.proofs?.length && downloadProof(e.proofs[0])
+                            }
+                          >
+                            Télécharger preuve
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -135,22 +176,51 @@ export default function Ecarts() {
             </div>
           </div>
 
-          <Modal open={open} onClose={closeModal} title={selected ? `${selected.id} — ${selected.titre}` : "Détail"}>
+          <Modal
+            open={open}
+            onClose={closeModal}
+            title={selected ? `${selected.id} — ${selected.titre}` : "Détail"}
+          >
             {selected && (
               <div>
-                <div className="mb-2"><strong>Site:</strong> {selected.site}</div>
-                <div className="mb-2"><strong>Criticité:</strong> {selected.criticite}</div>
-                <div className="mb-2"><strong>Écart:</strong> {selected.ecart}</div>
-                {selected.impact && <div className="mb-2"><strong>Impact:</strong> {selected.impact}</div>}
-                <div className="mb-4"><strong>Statut:</strong> {selected.statut}</div>
-                <div className="mb-2"><strong>Preuves:</strong></div>
+                <div className="mb-2">
+                  <strong>Site:</strong> {selected.site}
+                </div>
+                <div className="mb-2">
+                  <strong>Criticité:</strong> {selected.criticite}
+                </div>
+                <div className="mb-2">
+                  <strong>Écart:</strong> {selected.ecart}
+                </div>
+                {selected.impact && (
+                  <div className="mb-2">
+                    <strong>Impact:</strong> {selected.impact}
+                  </div>
+                )}
+                <div className="mb-4">
+                  <strong>Statut:</strong> {selected.statut}
+                </div>
+                <div className="mb-2">
+                  <strong>Preuves:</strong>
+                </div>
                 <ul className="mb-4">
-                  {selected.proofs?.length ? selected.proofs.map((p: string, i: number) => (
-                    <li key={i} className="flex items-center justify-between">
-                      <span className="text-sm">{p}</span>
-                      <button className="text-sm text-[hsl(var(--bg))]" onClick={() => downloadProof(p)}>Télécharger</button>
+                  {selected.proofs?.length ? (
+                    selected.proofs.map((p: string, i: number) => (
+                      <li key={i} className="flex items-center justify-between">
+                        <span className="text-sm">{p}</span>
+                        <button
+                          className="text-sm text-[hsl(var(--bg))]"
+                          onClick={() => downloadProof(p)}
+                        >
+                          Télécharger
+                        </button>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-sm text-[hsl(var(--fiducial-grey))]">
+                      Aucune preuve attachée
                     </li>
-                  )) : <li className="text-sm text-[hsl(var(--fiducial-grey))]">Aucune preuve attachée</li>}
+                  )}
                 </ul>
               </div>
             )}

@@ -1,7 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import type { Agency } from "./types";
 
-export default function AgenciesTable({ agencies, selectedAgencyId, onSelectAgency }: { agencies: Agency[]; selectedAgencyId?: string | null; onSelectAgency?: (agencyId: string) => void }) {
+export default function AgenciesTable({
+  agencies,
+  selectedAgencyId,
+  onSelectAgency,
+}: {
+  agencies: Agency[];
+  selectedAgencyId?: string | null;
+  onSelectAgency?: (agencyId: string) => void;
+}) {
   const refs = useRef<Record<string, HTMLTableRowElement | null>>({});
 
   useEffect(() => {

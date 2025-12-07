@@ -14,18 +14,20 @@ function HeatLayer({ points }: { points: [number, number, number][] }) {
 
   useEffect(() => {
     if (!map || !points?.length) return;
-    const heat = (L as any).heatLayer(points, {
-      radius: 40,
-      blur: 25,
-      maxZoom: 14,
-      minOpacity: 0.35,
-      gradient: {
-        0.4: "#4DA3FF",
-        0.6: "#1F78FF",
-        0.8: "#FF8A00",
-        1.0: "#FF0033",
-      },
-    }).addTo(map);
+    const heat = (L as any)
+      .heatLayer(points, {
+        radius: 40,
+        blur: 25,
+        maxZoom: 14,
+        minOpacity: 0.35,
+        gradient: {
+          0.4: "#4DA3FF",
+          0.6: "#1F78FF",
+          0.8: "#FF8A00",
+          1.0: "#FF0033",
+        },
+      })
+      .addTo(map);
 
     return () => {
       try {
@@ -57,20 +59,32 @@ export default function IncidentsHeatmap() {
       })
       .then((data) => {
         if (!mounted) return;
-        const parsed = (data || []).map((d: any) => ({ lat: Number(d.lat), lng: Number(d.lng), severite: Math.max(0, Math.min(1, Number(d.severite) || 0)) }));
+        const parsed = (data || []).map((d: any) => ({
+          lat: Number(d.lat),
+          lng: Number(d.lng),
+          severite: Math.max(0, Math.min(1, Number(d.severite) || 0)),
+        }));
         // apply simple filter: if agency selected, keep only near incidents
         if (filters.agencyId) {
           // load agencies to find coords
-          fetch('/data/agences.json').then(r=>r.json()).then((ags)=>{
-            const a = (ags||[]).find((x:any)=>x.id===filters.agencyId);
-            if (a) {
-              const near = parsed.filter((p:any)=>Math.hypot(p.lat - a.lat, p.lng - a.lng) < 0.5);
-              setIncidents(near);
-            } else {
+          fetch("/data/agences.json")
+            .then((r) => r.json())
+            .then((ags) => {
+              const a = (ags || []).find((x: any) => x.id === filters.agencyId);
+              if (a) {
+                const near = parsed.filter(
+                  (p: any) => Math.hypot(p.lat - a.lat, p.lng - a.lng) < 0.5,
+                );
+                setIncidents(near);
+              } else {
+                setIncidents(parsed);
+              }
+              setLoading(false);
+            })
+            .catch(() => {
               setIncidents(parsed);
-            }
-            setLoading(false);
-          }).catch(()=>{ setIncidents(parsed); setLoading(false); });
+              setLoading(false);
+            });
         } else {
           setIncidents(parsed);
           setLoading(false);
@@ -87,7 +101,9 @@ export default function IncidentsHeatmap() {
     };
   }, [filters.period, filters.agencyId, filters.criticity, filters.typologie]);
 
-  const points = incidents.map((i) => [i.lat, i.lng, i.severite] as [number, number, number]);
+  const points = incidents.map(
+    (i) => [i.lat, i.lng, i.severite] as [number, number, number],
+  );
 
   if (loading) {
     return (
@@ -108,8 +124,21 @@ export default function IncidentsHeatmap() {
   return (
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
       <h3 className="text-lg font-semibold mb-3">Heatmap des incidents SPB</h3>
-      <div style={{ height: 420, width: "100%", borderRadius: 16, overflow: "hidden" }}>
-        <MapContainer {...({ center: center as any, zoom: 7, style: { height: "100%", width: "100%" } } as any)}>
+      <div
+        style={{
+          height: 420,
+          width: "100%",
+          borderRadius: 16,
+          overflow: "hidden",
+        }}
+      >
+        <MapContainer
+          {...({
+            center: center as any,
+            zoom: 7,
+            style: { height: "100%", width: "100%" },
+          } as any)}
+        >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <HeatLayer points={points} />
         </MapContainer>

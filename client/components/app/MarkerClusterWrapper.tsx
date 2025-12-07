@@ -15,7 +15,9 @@ type ChildProps = {
   tooltip?: string;
 };
 
-export const MarkerClusterWrapper: React.FC<{ children: React.ReactElement[] }> = ({ children }) => {
+export const MarkerClusterWrapper: React.FC<{
+  children: React.ReactElement[];
+}> = ({ children }) => {
   const map = useMap();
   const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
@@ -58,7 +60,7 @@ export const MarkerClusterWrapper: React.FC<{ children: React.ReactElement[] }> 
       const opts: L.PathOptions & any = {
         radius: p.radius || 10,
         color: p.color || "#3388ff",
-        fillColor: p.fillColor || (p.color || "#3388ff"),
+        fillColor: p.fillColor || p.color || "#3388ff",
         fillOpacity: typeof p.fillOpacity === "number" ? p.fillOpacity : 0.85,
         weight: typeof p.weight === "number" ? p.weight : 0,
       };

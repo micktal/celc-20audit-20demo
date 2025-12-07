@@ -42,7 +42,17 @@ function labelFr(s: AgencyStatus) {
   }
 }
 
-export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selectedAgencyId, onSelectAgency }: { agencies?: Agency[]; reloadKey?: number; selectedAgencyId?: string | null; onSelectAgency?: (agency: Agency) => void }) {
+export default function AgenciesMap({
+  agencies: agenciesProp,
+  reloadKey,
+  selectedAgencyId,
+  onSelectAgency,
+}: {
+  agencies?: Agency[];
+  reloadKey?: number;
+  selectedAgencyId?: string | null;
+  onSelectAgency?: (agency: Agency) => void;
+}) {
   const center: LatLngExpression = [47.9, 1.9];
   const [agencies, setAgencies] = useState<Agency[]>(agenciesProp || []);
   const [loading, setLoading] = useState(!agenciesProp?.length);
@@ -78,7 +88,12 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const parsed: Agency[] = (data || []).map((d: any) => {
-          const status = (d.status === "Treated" || d.status === "InProgress" || d.status === "ToDo") ? d.status : "ToDo";
+          const status =
+            d.status === "Treated" ||
+            d.status === "InProgress" ||
+            d.status === "ToDo"
+              ? d.status
+              : "ToDo";
           return {
             id: String(d.id),
             name: String(d.name || ""),
@@ -155,9 +170,24 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
 
   return (
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
-      <h3 className="text-lg font-semibold mb-3">Cartographie des agences auditées</h3>
-      <div style={{ height: 420, width: "100%", borderRadius: 16, overflow: "hidden" }}>
-        <MapContainer {...({ center, zoom: 7, style: { height: "100%", width: "100%" } } as any)}>
+      <h3 className="text-lg font-semibold mb-3">
+        Cartographie des agences auditées
+      </h3>
+      <div
+        style={{
+          height: 420,
+          width: "100%",
+          borderRadius: 16,
+          overflow: "hidden",
+        }}
+      >
+        <MapContainer
+          {...({
+            center,
+            zoom: 7,
+            style: { height: "100%", width: "100%" },
+          } as any)}
+        >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {/* set mapRef using a small child component */}
           <MapRefSetter />
@@ -166,7 +196,8 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
           {/* Children are simple div elements carrying marker props which the wrapper reads */}
           <MarkerClusterWrapper>
             {agencies.map((a) => {
-              const isSelected = !!selectedAgencyId && a.id === selectedAgencyId;
+              const isSelected =
+                !!selectedAgencyId && a.id === selectedAgencyId;
               const isAnimated = animatedId === a.id;
               const radius = isSelected ? 14 : isAnimated ? 16 : 10;
               const color = isSelected ? "#3498DB" : colorByStatus(a.status);
@@ -186,10 +217,15 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
                   setTimeout(() => setAnimatedId(null), 300);
                   if (onSelectAgency) onSelectAgency(a);
                   // dispatch custom event to make the cluster wrapper reveal the marker
-                  window.dispatchEvent(new CustomEvent("zoomToAgency", { detail: a.id }));
+                  window.dispatchEvent(
+                    new CustomEvent("zoomToAgency", { detail: a.id }),
+                  );
                   // also fly the map to the marker
                   try {
-                    if (mapRef.current) mapRef.current.flyTo([a.lat, a.lng], 12, { duration: 0.4 });
+                    if (mapRef.current)
+                      mapRef.current.flyTo([a.lat, a.lng], 12, {
+                        duration: 0.4,
+                      });
                   } catch {}
                 },
               };
@@ -210,19 +246,27 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
         <div className="bg-[hsl(var(--light-grey))] rounded-md p-3 text-sm">
           <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4 items-center">
             <div>
-              <div className="text-xs text-[hsl(var(--fiducial-grey))]">Traité</div>
+              <div className="text-xs text-[hsl(var(--fiducial-grey))]">
+                Traité
+              </div>
               <div className="font-semibold">{summary.treated}</div>
             </div>
             <div>
-              <div className="text-xs text-[hsl(var(--fiducial-grey))]">En cours</div>
+              <div className="text-xs text-[hsl(var(--fiducial-grey))]">
+                En cours
+              </div>
               <div className="font-semibold">{summary.inProgress}</div>
             </div>
             <div>
-              <div className="text-xs text-[hsl(var(--fiducial-grey))]">À traiter</div>
+              <div className="text-xs text-[hsl(var(--fiducial-grey))]">
+                À traiter
+              </div>
               <div className="font-semibold">{summary.toDo}</div>
             </div>
             <div>
-              <div className="text-xs text-[hsl(var(--fiducial-grey))]">Avancement global</div>
+              <div className="text-xs text-[hsl(var(--fiducial-grey))]">
+                Avancement global
+              </div>
               <div className="font-semibold">{summary.progress}%</div>
             </div>
           </div>
@@ -235,7 +279,10 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
 function LegendDot({ color, label }: { color: string; label: string }) {
   return (
     <div className="flex items-center gap-2">
-      <span style={{ background: color }} className="inline-block w-3 h-3 rounded-full" />
+      <span
+        style={{ background: color }}
+        className="inline-block w-3 h-3 rounded-full"
+      />
       <span className="text-sm text-[hsl(var(--fiducial-grey))]">{label}</span>
     </div>
   );

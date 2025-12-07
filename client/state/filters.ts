@@ -5,9 +5,9 @@ export type Filters = {
   agencyId: string | null;
   criticity: "H0" | "H1" | "H2" | "Faible" | "All";
   typologie: string | "All";
-  setPeriod: (p: Filters['period']) => void;
+  setPeriod: (p: Filters["period"]) => void;
   setAgency: (id: string | null) => void;
-  setCriticity: (c: Filters['criticity']) => void;
+  setCriticity: (c: Filters["criticity"]) => void;
   setTypologie: (t: string | "All") => void;
   reset: () => void;
 };
@@ -21,5 +21,11 @@ export const useFilters = create<Filters>((set) => ({
   setAgency: (id) => set(() => ({ agencyId: id })),
   setCriticity: (c) => set(() => ({ criticity: c })),
   setTypologie: (t) => set(() => ({ typologie: t })),
-  reset: () => set(() => ({ period: "30j", agencyId: null, criticity: "All", typologie: "All" })),
+  reset: () =>
+    set(() => ({
+      period: "30j",
+      agencyId: null,
+      criticity: "All",
+      typologie: "All",
+    })),
 }));

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
 import { useFilters } from "@/state/filters";
 
 type Incident = {
@@ -33,13 +41,27 @@ export default function IncidentsTimeline() {
         let filtered = items.slice();
         // period filter (simple implementation based on days)
         const now = new Date();
-        const periodDays = filters.period === "30j" ? 30 : filters.period === "90j" ? 90 : filters.period === "180j" ? 180 : 365;
-        const cutoff = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
+        const periodDays =
+          filters.period === "30j"
+            ? 30
+            : filters.period === "90j"
+              ? 90
+              : filters.period === "180j"
+                ? 180
+                : 365;
+        const cutoff = new Date(
+          now.getTime() - periodDays * 24 * 60 * 60 * 1000,
+        );
         filtered = filtered.filter((it) => parseDate(it.date) >= cutoff);
 
-        if (filters.agencyId) filtered = filtered.filter((it) => it.agenceId === filters.agencyId);
-        if (filters.criticity !== "All") filtered = filtered.filter((it) => it.criticite === filters.criticity);
-        if (filters.typologie !== "All") filtered = filtered.filter((it) => it.type === filters.typologie);
+        if (filters.agencyId)
+          filtered = filtered.filter((it) => it.agenceId === filters.agencyId);
+        if (filters.criticity !== "All")
+          filtered = filtered.filter(
+            (it) => it.criticite === filters.criticity,
+          );
+        if (filters.typologie !== "All")
+          filtered = filtered.filter((it) => it.type === filters.typologie);
 
         // group by date
         const grouped: Record<string, number> = {};
@@ -63,7 +85,10 @@ export default function IncidentsTimeline() {
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border h-64">
       <h4 className="font-semibold mb-2">Timeline des incidents</h4>
       <ResponsiveContainer width="100%" height="85%">
-        <AreaChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+        <AreaChart
+          data={data}
+          margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+        >
           <defs>
             <linearGradient id="colorInc" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#FF8A00" stopOpacity={0.8} />
@@ -71,10 +96,19 @@ export default function IncidentsTimeline() {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" tickFormatter={(d) => new Date(d).toLocaleDateString()} />
+          <XAxis
+            dataKey="date"
+            tickFormatter={(d) => new Date(d).toLocaleDateString()}
+          />
           <YAxis />
           <Tooltip />
-          <Area type="monotone" dataKey="count" stroke="#FF8A00" fillOpacity={1} fill="url(#colorInc)" />
+          <Area
+            type="monotone"
+            dataKey="count"
+            stroke="#FF8A00"
+            fillOpacity={1}
+            fill="url(#colorInc)"
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 type DataPoint = { lot: string; score: number };
 
@@ -16,7 +24,10 @@ export default function RadarPriscop() {
         if (!mounted) return;
         let processed = d as DataPoint[];
         if (filters.agencyId) {
-          processed = processed.map((p) => ({ ...p, score: Math.max(50, p.score - 5) }));
+          processed = processed.map((p) => ({
+            ...p,
+            score: Math.max(50, p.score - 5),
+          }));
         }
         setData(processed as DataPoint[]);
       })
@@ -34,7 +45,13 @@ export default function RadarPriscop() {
           <PolarGrid />
           <PolarAngleAxis dataKey="lot" />
           <PolarRadiusAxis angle={30} domain={[0, 100]} />
-          <Radar name="Score" dataKey="score" stroke="#007ABC" fill="#007ABC" fillOpacity={0.3} />
+          <Radar
+            name="Score"
+            dataKey="score"
+            stroke="#007ABC"
+            fill="#007ABC"
+            fillOpacity={0.3}
+          />
           <Tooltip />
         </RadarChart>
       </ResponsiveContainer>

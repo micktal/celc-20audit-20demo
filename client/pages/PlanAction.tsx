@@ -62,43 +62,85 @@ export default function PlanAction() {
         <main className="flex-1 p-6">
           <header className="mb-6">
             <h2 className="text-2xl font-bold">Plan d'Action Priorisé</h2>
-            <p className="text-sm text-[hsl(var(--fiducial-grey))]">H0 / H1 / H2–H3 — priorités et responsables</p>
+            <p className="text-sm text-[hsl(var(--fiducial-grey))]">
+              H0 / H1 / H2–H3 — priorités et responsables
+            </p>
           </header>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <section className="bg-white p-4 rounded-lg border border-border">
-              <h3 className="font-semibold">H0 – Mesures immédiates (&lt; 30 jours)</h3>
+              <h3 className="font-semibold">
+                H0 – Mesures immédiates (&lt; 30 jours)
+              </h3>
               <ul className="mt-3 space-y-3 text-sm">
                 {H0.map((a) => (
-                  <li key={a.id} className="p-3 rounded-md border border-border">
-                    <div className="font-medium">{a.title} <span className="text-xs ml-2 text-[hsl(var(--fiducial-grey))]">{a.criticite}</span></div>
-                    <div className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">Action: {a.action}</div>
-                    <div className="text-xs text-[hsl(var(--fiducial-grey))] mt-2">Responsable: {a.responsable} • Deadline: {a.deadline}</div>
+                  <li
+                    key={a.id}
+                    className="p-3 rounded-md border border-border"
+                  >
+                    <div className="font-medium">
+                      {a.title}{" "}
+                      <span className="text-xs ml-2 text-[hsl(var(--fiducial-grey))]">
+                        {a.criticite}
+                      </span>
+                    </div>
+                    <div className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">
+                      Action: {a.action}
+                    </div>
+                    <div className="text-xs text-[hsl(var(--fiducial-grey))] mt-2">
+                      Responsable: {a.responsable} • Deadline: {a.deadline}
+                    </div>
                   </li>
                 ))}
               </ul>
             </section>
 
             <section className="bg-white p-4 rounded-lg border border-border">
-              <h3 className="font-semibold">H1 – Renforcement organisationnel (1–3 mois)</h3>
+              <h3 className="font-semibold">
+                H1 – Renforcement organisationnel (1–3 mois)
+              </h3>
               <ul className="mt-3 space-y-3 text-sm">
                 {H1.map((a) => (
-                  <li key={a.id} className="p-3 rounded-md border border-border">
-                    <div className="font-medium">{a.title} <span className="text-xs ml-2 text-[hsl(var(--fiducial-grey))]">{a.criticite}</span></div>
-                    <div className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">Action: {a.action}</div>
-                    <div className="text-xs text-[hsl(var(--fiducial-grey))] mt-2">Responsable: {a.responsable} • Deadline: {a.deadline}</div>
+                  <li
+                    key={a.id}
+                    className="p-3 rounded-md border border-border"
+                  >
+                    <div className="font-medium">
+                      {a.title}{" "}
+                      <span className="text-xs ml-2 text-[hsl(var(--fiducial-grey))]">
+                        {a.criticite}
+                      </span>
+                    </div>
+                    <div className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">
+                      Action: {a.action}
+                    </div>
+                    <div className="text-xs text-[hsl(var(--fiducial-grey))] mt-2">
+                      Responsable: {a.responsable} • Deadline: {a.deadline}
+                    </div>
                   </li>
                 ))}
               </ul>
             </section>
 
             <section className="bg-white p-4 rounded-lg border border-border">
-              <h3 className="font-semibold">H2–H3 – Améliorations techniques & modernisation (3–12 mois)</h3>
+              <h3 className="font-semibold">
+                H2–H3 – Améliorations techniques & modernisation (3–12 mois)
+              </h3>
               <ul className="mt-3 space-y-3 text-sm">
                 {H2H3.map((a) => (
-                  <li key={a.id} className="p-3 rounded-md border border-border">
-                    <div className="font-medium">{a.title} <span className="text-xs ml-2 text-[hsl(var(--fiducial-grey))]">Priorité: {a.priorite}</span></div>
-                    <div className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">{a.desc}</div>
+                  <li
+                    key={a.id}
+                    className="p-3 rounded-md border border-border"
+                  >
+                    <div className="font-medium">
+                      {a.title}{" "}
+                      <span className="text-xs ml-2 text-[hsl(var(--fiducial-grey))]">
+                        Priorité: {a.priorite}
+                      </span>
+                    </div>
+                    <div className="text-sm text-[hsl(var(--fiducial-grey))] mt-1">
+                      {a.desc}
+                    </div>
                   </li>
                 ))}
               </ul>

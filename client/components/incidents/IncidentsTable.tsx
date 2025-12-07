@@ -29,13 +29,27 @@ export default function IncidentsTable() {
         let filtered = items.slice();
         // period
         const now = new Date();
-        const periodDays = filters.period === "30j" ? 30 : filters.period === "90j" ? 90 : filters.period === "180j" ? 180 : 365;
-        const cutoff = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
+        const periodDays =
+          filters.period === "30j"
+            ? 30
+            : filters.period === "90j"
+              ? 90
+              : filters.period === "180j"
+                ? 180
+                : 365;
+        const cutoff = new Date(
+          now.getTime() - periodDays * 24 * 60 * 60 * 1000,
+        );
         filtered = filtered.filter((it) => new Date(it.date) >= cutoff);
 
-        if (filters.agencyId) filtered = filtered.filter((it) => it.agenceId === filters.agencyId);
-        if (filters.criticity !== "All") filtered = filtered.filter((it) => it.criticite === filters.criticity);
-        if (filters.typologie !== "All") filtered = filtered.filter((it) => it.type === filters.typologie);
+        if (filters.agencyId)
+          filtered = filtered.filter((it) => it.agenceId === filters.agencyId);
+        if (filters.criticity !== "All")
+          filtered = filtered.filter(
+            (it) => it.criticite === filters.criticity,
+          );
+        if (filters.typologie !== "All")
+          filtered = filtered.filter((it) => it.type === filters.typologie);
 
         setData(filtered);
       })
@@ -55,8 +69,10 @@ export default function IncidentsTable() {
 
   const sorted = data.slice().sort((a, b) => {
     let res = 0;
-    if (sortField === "date") res = new Date(a.date).getTime() - new Date(b.date).getTime();
-    else if (sortField === "criticite") res = a.criticite.localeCompare(b.criticite);
+    if (sortField === "date")
+      res = new Date(a.date).getTime() - new Date(b.date).getTime();
+    else if (sortField === "criticite")
+      res = a.criticite.localeCompare(b.criticite);
     else if (sortField === "type") res = a.type.localeCompare(b.type);
     return sortDir === "asc" ? res : -res;
   });
@@ -68,25 +84,48 @@ export default function IncidentsTable() {
         <table className="w-full text-left text-sm">
           <thead className="text-[hsl(var(--fiducial-grey))]">
             <tr>
-              <th className="py-2 px-3 cursor-pointer" onClick={() => sortBy("date")}>Date</th>
+              <th
+                className="py-2 px-3 cursor-pointer"
+                onClick={() => sortBy("date")}
+              >
+                Date
+              </th>
               <th className="py-2 px-3">Heure</th>
               <th className="py-2 px-3">Agence</th>
               <th className="py-2 px-3">Ville</th>
-              <th className="py-2 px-3 cursor-pointer" onClick={() => sortBy("type")}>Type</th>
-              <th className="py-2 px-3 cursor-pointer" onClick={() => sortBy("criticite")}>Criticité</th>
+              <th
+                className="py-2 px-3 cursor-pointer"
+                onClick={() => sortBy("type")}
+              >
+                Type
+              </th>
+              <th
+                className="py-2 px-3 cursor-pointer"
+                onClick={() => sortBy("criticite")}
+              >
+                Criticité
+              </th>
               <th className="py-2 px-3">Description</th>
             </tr>
           </thead>
           <tbody>
             {sorted.map((it) => (
-              <tr key={it.id} className="border-t border-border hover:bg-gray-50 cursor-pointer" onClick={() => filters.setAgency(it.agenceId)}>
+              <tr
+                key={it.id}
+                className="border-t border-border hover:bg-gray-50 cursor-pointer"
+                onClick={() => filters.setAgency(it.agenceId)}
+              >
                 <td className="py-2 px-3">{it.date}</td>
                 <td className="py-2 px-3">{it.heure}</td>
                 <td className="py-2 px-3">{it.agenceNom}</td>
                 <td className="py-2 px-3">{it.ville}</td>
                 <td className="py-2 px-3">{it.type}</td>
                 <td className="py-2 px-3">{it.criticite}</td>
-                <td className="py-2 px-3" title={it.description}>{it.description.length > 80 ? it.description.slice(0, 77) + '...' : it.description}</td>
+                <td className="py-2 px-3" title={it.description}>
+                  {it.description.length > 80
+                    ? it.description.slice(0, 77) + "..."
+                    : it.description}
+                </td>
               </tr>
             ))}
           </tbody>

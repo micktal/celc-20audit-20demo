@@ -9,7 +9,9 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isAuthenticated, setAuthenticated] = useState<boolean>(() => {
     try {
       return localStorage.getItem("isAuthenticated") === "true";
@@ -21,7 +23,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem("isAuthenticated", isAuthenticated ? "true" : "false");
+      localStorage.setItem(
+        "isAuthenticated",
+        isAuthenticated ? "true" : "false",
+      );
     } catch {}
   }, [isAuthenticated]);
 

@@ -29,11 +29,20 @@ export default function DashboardKpi() {
 
   useEffect(() => {
     let mounted = true;
-    fetch('/data/kpi.json')
-      .then(r => r.json())
-      .then(d => { if (!mounted) return; setKpi(d); setLoading(false); })
-      .catch(() => { if (!mounted) return; setLoading(false); });
-    return () => { mounted = false; }
+    fetch("/data/kpi.json")
+      .then((r) => r.json())
+      .then((d) => {
+        if (!mounted) return;
+        setKpi(d);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (!mounted) return;
+        setLoading(false);
+      });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   if (loading || !kpi) {
@@ -43,7 +52,10 @@ export default function DashboardKpi() {
           <SidebarNav />
           <main className="flex-1 p-6">
             <h1 className="text-2xl font-bold">Dashboard KPI SPB</h1>
-            <p className="text-sm text-[hsl(var(--fiducial-grey))]">Vue d'ensemble des indicateurs clés SPB, incidents et conformité PRISCOP.</p>
+            <p className="text-sm text-[hsl(var(--fiducial-grey))]">
+              Vue d'ensemble des indicateurs clés SPB, incidents et conformité
+              PRISCOP.
+            </p>
             <div className="mt-6">Loading...</div>
           </main>
         </div>
@@ -52,29 +64,52 @@ export default function DashboardKpi() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#F5F6F8' }}>
+    <div className="min-h-screen" style={{ background: "#F5F6F8" }}>
       <div className="flex">
         <SidebarNav />
         <main className="flex-1 p-6">
           <h1 className="text-2xl font-bold">Dashboard KPI SPB</h1>
-          <p className="text-sm text-[hsl(var(--fiducial-grey))]">Vue d'ensemble des indicateurs clés SPB, incidents et conformité PRISCOP.</p>
+          <p className="text-sm text-[hsl(var(--fiducial-grey))]">
+            Vue d'ensemble des indicateurs clés SPB, incidents et conformité
+            PRISCOP.
+          </p>
 
           {/* Filter Bar */}
           <div className="mt-6 bg-white p-4 rounded-[20px] shadow-sm border border-border flex flex-wrap items-center gap-3">
-            <select value={period} onChange={(e) => filters.setPeriod(e.target.value as any)} className="p-2 border rounded">
+            <select
+              value={period}
+              onChange={(e) => filters.setPeriod(e.target.value as any)}
+              className="p-2 border rounded"
+            >
               <option value="30j">30j</option>
               <option value="90j">90j</option>
               <option value="180j">180j</option>
               <option value="1an">1 an</option>
             </select>
 
-            <select value={agence} onChange={(e) => filters.setAgency(e.target.value === "Toutes" ? null : e.target.value)} className="p-2 border rounded">
+            <select
+              value={agence}
+              onChange={(e) =>
+                filters.setAgency(
+                  e.target.value === "Toutes" ? null : e.target.value,
+                )
+              }
+              className="p-2 border rounded"
+            >
               <option>Toutes</option>
               <option>Orléans</option>
               <option>Tours</option>
             </select>
 
-            <select value={criticite} onChange={(e) => filters.setCriticity(e.target.value === "Tous" ? "All" : (e.target.value as any))} className="p-2 border rounded">
+            <select
+              value={criticite}
+              onChange={(e) =>
+                filters.setCriticity(
+                  e.target.value === "Tous" ? "All" : (e.target.value as any),
+                )
+              }
+              className="p-2 border rounded"
+            >
               <option>Tous</option>
               <option>H0</option>
               <option>H1</option>
@@ -82,7 +117,15 @@ export default function DashboardKpi() {
               <option>Faible</option>
             </select>
 
-            <select value={typologie} onChange={(e) => filters.setTypologie(e.target.value === "Tous" ? "All" : e.target.value)} className="p-2 border rounded">
+            <select
+              value={typologie}
+              onChange={(e) =>
+                filters.setTypologie(
+                  e.target.value === "Tous" ? "All" : e.target.value,
+                )
+              }
+              className="p-2 border rounded"
+            >
               <option>Tous</option>
               <option>Intrusion</option>
               <option>Incivilité</option>
@@ -97,16 +140,28 @@ export default function DashboardKpi() {
               <KpiCard label="Incidents totaux" value={kpi.incidents_total} />
             </div>
             <div>
-              <KpiCard label="Incidents critiques (H0)" value={kpi.incidents_h0} />
+              <KpiCard
+                label="Incidents critiques (H0)"
+                value={kpi.incidents_h0}
+              />
             </div>
             <div>
-              <KpiCard label="Incidents majeurs (H1)" value={kpi.incidents_h1} />
+              <KpiCard
+                label="Incidents majeurs (H1)"
+                value={kpi.incidents_h1}
+              />
             </div>
             <div>
-              <KpiCard label="Taux de conformité PRISCOP" value={`${kpi.priscop_conformite}%`} />
+              <KpiCard
+                label="Taux de conformité PRISCOP"
+                value={`${kpi.priscop_conformite}%`}
+              />
             </div>
             <div>
-              <KpiCard label="Nombre d'écarts PRISCOP" value={kpi.ecarts_total} />
+              <KpiCard
+                label="Nombre d'écarts PRISCOP"
+                value={kpi.ecarts_total}
+              />
             </div>
             <div>
               <KpiCard label="Score global SPB" value={`${kpi.score_spb}`} />
