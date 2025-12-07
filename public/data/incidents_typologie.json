@@ -1,0 +1,6 @@
+[
+  { "type": "Intrusion", "count": 32 },
+  { "type": "Incivilité", "count": 45 },
+  { "type": "Vol", "count": 21 },
+  { "type": "Agression", "count": 7 }
+]
