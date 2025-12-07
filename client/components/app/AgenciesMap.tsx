@@ -40,13 +40,22 @@ function labelFr(s: AgencyStatus) {
   }
 }
 
-export default function AgenciesMap({ reloadKey }: { reloadKey?: number }) {
+export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selectedAgencyId, onSelectAgency }: { agencies?: Agency[]; reloadKey?: number; selectedAgencyId?: string | null; onSelectAgency?: (agency: Agency) => void }) {
   const center: LatLngExpression = [47.9, 1.9];
-  const [agencies, setAgencies] = useState<Agency[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [agencies, setAgencies] = useState<Agency[]>(agenciesProp || []);
+  const [loading, setLoading] = useState(!agenciesProp?.length);
   const [error, setError] = useState<string | null>(null);
+  const [animatedId, setAnimatedId] = useState<string | null>(null);
+  const mapRef = React.useRef<any>(null);
 
   useEffect(() => {
+    if (agenciesProp && agenciesProp.length) {
+      setAgencies(agenciesProp);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     let mounted = true;
     setLoading(true);
     setError(null);
@@ -56,7 +65,6 @@ export default function AgenciesMap({ reloadKey }: { reloadKey?: number }) {
         const res = await fetch("/data/agences.json", { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        // Validate and normalize
         const parsed: Agency[] = (data || []).map((d: any) => {
           const status = (d.status === "Treated" || d.status === "InProgress" || d.status === "ToDo") ? d.status : "ToDo";
           return {
@@ -85,7 +93,18 @@ export default function AgenciesMap({ reloadKey }: { reloadKey?: number }) {
     return () => {
       mounted = false;
     };
-  }, [reloadKey]);
+  }, [agenciesProp, reloadKey]);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+    if (!selectedAgencyId) return;
+    const a = agencies.find((x) => x.id === selectedAgencyId);
+    if (a) {
+      try {
+        mapRef.current.setView([a.lat, a.lng], 12, { animate: true });
+      } catch {}
+    }
+  }, [selectedAgencyId, agencies]);
 
   const summary = useMemo(() => {
     const total = agencies.length;
@@ -116,27 +135,46 @@ export default function AgenciesMap({ reloadKey }: { reloadKey?: number }) {
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
       <h3 className="text-lg font-semibold mb-3">Cartographie des agences auditées</h3>
       <div style={{ height: 420, width: "100%", borderRadius: 16, overflow: "hidden" }}>
-        <MapContainer center={center} zoom={7} style={{ height: "100%", width: "100%" }}>
+        <MapContainer whenCreated={(map) => (mapRef.current = map)} center={center} zoom={7} style={{ height: "100%", width: "100%" }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {agencies.map((a) => (
-            <CircleMarker
-              key={a.id}
-              center={[a.lat, a.lng]}
-              radius={10}
-              pathOptions={{ color: colorByStatus(a.status), fillColor: colorByStatus(a.status), fillOpacity: 0.85, weight: 0 }}
-            >
-              <Tooltip direction="top" offset={[0, -10]}>
-                <div className="text-sm">
-                  <div className="font-medium">{a.name} – {a.city}</div>
-                  <div className="text-xs">{labelFr(a.status)}</div>
-                </div>
-              </Tooltip>
-            </CircleMarker>
-          ))}
+          {agencies.map((a) => {
+            const isSelected = !!selectedAgencyId && a.id === selectedAgencyId;
+            const isAnimated = animatedId === a.id;
+            const radius = isSelected ? 14 : isAnimated ? 16 : 10;
+            const pathOpts: any = {
+              color: isSelected ? "#3498DB" : colorByStatus(a.status),
+              fillColor: colorByStatus(a.status),
+              fillOpacity: isSelected ? 1 : 0.85,
+              weight: isSelected ? 2 : 0,
+            };
+
+            return (
+              <CircleMarker
+                key={a.id}
+                center={[a.lat, a.lng]}
+                radius={radius}
+                pathOptions={pathOpts}
+                eventHandlers={{
+                  click: () => {
+                    setAnimatedId(a.id);
+                    setTimeout(() => setAnimatedId(null), 300);
+                    if (onSelectAgency) onSelectAgency(a);
+                  },
+                }}
+              >
+                <Tooltip direction="top" offset={[0, -10]}>
+                  <div className="text-sm">
+                    <div className="font-medium">{a.name} – {a.city}</div>
+                    <div className="text-xs">{labelFr(a.status)}</div>
+                  </div>
+                </Tooltip>
+              </CircleMarker>
+            );
+          })}
         </MapContainer>
       </div>
 
