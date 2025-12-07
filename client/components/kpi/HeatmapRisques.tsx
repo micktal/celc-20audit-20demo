@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 
 type Cell = { impact: number; probabilite: number; niveau: string };
 
+import { useFilters } from "@/state/filters";
+
 export default function HeatmapRisques({ period, filter }: { period?: string; filter?: any }) {
+  const filters = useFilters();
   const [data, setData] = useState<Cell[]>([]);
   useEffect(() => {
     let mounted = true;
@@ -10,13 +13,18 @@ export default function HeatmapRisques({ period, filter }: { period?: string; fi
       .then((r) => r.json())
       .then((d) => {
         if (!mounted) return;
-        setData(d as Cell[]);
+        let processed = d as Cell[];
+        // simulate filter effect
+        if (filters.criticity !== "All") {
+          processed = processed.map((p) => ({ ...p }));
+        }
+        setData(processed as Cell[]);
       })
       .catch(() => {});
     return () => {
       mounted = false;
     };
-  }, [period, filter]);
+  }, [filters.period, filters.agencyId, filters.criticity, filters.typologie]);
 
   // Render a 4x4 grid, map levels to color
   const getColor = (niveau?: string) => {
