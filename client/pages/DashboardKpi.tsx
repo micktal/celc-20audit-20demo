@@ -6,6 +6,8 @@ import TypologieIncidentsChart from "@/components/kpi/TypologieIncidentsChart";
 import CriticiteDonut from "@/components/kpi/CriticiteDonut";
 import RadarPriscop from "@/components/kpi/RadarPriscop";
 import HeatmapRisques from "@/components/kpi/HeatmapRisques";
+import ActiveFilters from "@/components/kpi/ActiveFilters";
+import { useFilters } from "@/state/filters";
 
 type KpiData = {
   incidents_total: number;
