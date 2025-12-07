@@ -52,6 +52,14 @@ export default function AgenciesMap({ agencies: agenciesProp, reloadKey, selecte
 
   const filters = useFilters();
 
+  function MapRefSetter() {
+    const map = useMap();
+    React.useEffect(() => {
+      mapRef.current = map;
+    }, [map]);
+    return null;
+  }
+
   useEffect(() => {
     if (agenciesProp && agenciesProp.length) {
       setAgencies(agenciesProp);
