@@ -131,7 +131,7 @@ export default function DashboardKpi() {
             </div>
 
             <div className="lg:col-span-1">
-              <HeatmapRisques period={period} filter={{ agence, criticite, typologie }} />
+              <HeatmapRisques />
             </div>
           </section>
         </main>
