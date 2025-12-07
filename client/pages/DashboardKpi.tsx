@@ -59,20 +59,20 @@ export default function DashboardKpi() {
 
           {/* Filter Bar */}
           <div className="mt-6 bg-white p-4 rounded-[20px] shadow-sm border border-border flex flex-wrap items-center gap-3">
-            <select value={period} onChange={(e) => setPeriod(e.target.value)} className="p-2 border rounded">
+            <select value={period} onChange={(e) => filters.setPeriod(e.target.value as any)} className="p-2 border rounded">
               <option value="30j">30j</option>
               <option value="90j">90j</option>
               <option value="180j">180j</option>
               <option value="1an">1 an</option>
             </select>
 
-            <select value={agence} onChange={(e) => setAgence(e.target.value)} className="p-2 border rounded">
+            <select value={agence} onChange={(e) => filters.setAgency(e.target.value === "Toutes" ? null : e.target.value)} className="p-2 border rounded">
               <option>Toutes</option>
               <option>Orléans</option>
               <option>Tours</option>
             </select>
 
-            <select value={criticite} onChange={(e) => setCriticite(e.target.value)} className="p-2 border rounded">
+            <select value={criticite} onChange={(e) => filters.setCriticity(e.target.value === "Tous" ? "All" : (e.target.value as any))} className="p-2 border rounded">
               <option>Tous</option>
               <option>H0</option>
               <option>H1</option>
@@ -80,7 +80,7 @@ export default function DashboardKpi() {
               <option>Faible</option>
             </select>
 
-            <select value={typologie} onChange={(e) => setTypologie(e.target.value)} className="p-2 border rounded">
+            <select value={typologie} onChange={(e) => filters.setTypologie(e.target.value === "Tous" ? "All" : e.target.value)} className="p-2 border rounded">
               <option>Tous</option>
               <option>Intrusion</option>
               <option>Incivilité</option>
