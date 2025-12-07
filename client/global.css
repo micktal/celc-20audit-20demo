@@ -8,7 +8,7 @@
 @layer base {
   /* Brand tokens (HSL values to match tailwind.config expectations) */
   :root {
-    --bg: 227 64% 15%; /* Dark Blue base used for accents */
+    --bg: 153 100% 24%; /* #007841 */
     --fiducial-grey: 0 0% 20%; /* #333333 */
     --light-grey: 0 0% 95%; /* #F4F4F4 */
     --fiducial-red: 356 71% 40%; /* #AD1F2A */
