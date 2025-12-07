@@ -86,6 +86,15 @@ const App = () => (
               }
             />
 
+            <Route
+              path="/analyse-incidents"
+              element={
+                <ProtectedRoute>
+                  <AnalyseIncidents />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
