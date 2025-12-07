@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import MarkerClusterWrapper from "./MarkerClusterWrapper";
 import type { LatLngExpression } from "leaflet";
 import { useFilters } from "@/state/filters";
