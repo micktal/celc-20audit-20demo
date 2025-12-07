@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
 import type { LatLngExpression } from "leaflet";
@@ -13,14 +13,6 @@ type Agency = {
   lng: number;
   status: AgencyStatus;
 };
-
-const AGENCIES: Agency[] = [
-  { id: "a1", name: "Orléans - Les Halles", city: "Orléans", lat: 47.9029, lng: 1.9093, status: "Treated" },
-  { id: "a2", name: "Tours République", city: "Tours", lat: 47.3941, lng: 0.6848, status: "InProgress" },
-  { id: "a3", name: "Bourges Centre", city: "Bourges", lat: 47.0826, lng: 2.3988, status: "ToDo" },
-  { id: "a4", name: "Blois Victor Hugo", city: "Blois", lat: 47.5861, lng: 1.329, status: "Treated" },
-  { id: "a5", name: "Chartres Clémenceau", city: "Chartres", lat: 48.4464, lng: 1.489, status: "ToDo" },
-];
 
 function colorByStatus(s: AgencyStatus) {
   switch (s) {
@@ -48,17 +40,77 @@ function labelFr(s: AgencyStatus) {
   }
 }
 
-export default function AgenciesMap(): JSX.Element {
+export default function AgenciesMap({ reloadKey }: { reloadKey?: number }) {
   const center: LatLngExpression = [47.9, 1.9];
+  const [agencies, setAgencies] = useState<Agency[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    setError(null);
+
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/data/agences.json", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        // Validate and normalize
+        const parsed: Agency[] = (data || []).map((d: any) => {
+          const status = (d.status === "Treated" || d.status === "InProgress" || d.status === "ToDo") ? d.status : "ToDo";
+          return {
+            id: String(d.id),
+            name: String(d.name || ""),
+            city: String(d.city || ""),
+            lat: Number(d.lat),
+            lng: Number(d.lng),
+            status,
+          } as Agency;
+        });
+        if (mounted) {
+          setAgencies(parsed);
+          setLoading(false);
+        }
+      } catch (err: any) {
+        if (mounted) {
+          setError("Erreur lors du chargement des agences.");
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      mounted = false;
+    };
+  }, [reloadKey]);
 
   const summary = useMemo(() => {
-    const total = AGENCIES.length;
-    const treated = AGENCIES.filter((a) => a.status === "Treated").length;
-    const inProgress = AGENCIES.filter((a) => a.status === "InProgress").length;
-    const toDo = AGENCIES.filter((a) => a.status === "ToDo").length;
-    const progress = Math.round((treated / total) * 100);
+    const total = agencies.length;
+    const treated = agencies.filter((a) => a.status === "Treated").length;
+    const inProgress = agencies.filter((a) => a.status === "InProgress").length;
+    const toDo = agencies.filter((a) => a.status === "ToDo").length;
+    const progress = total ? Math.round((treated / total) * 100) : 0;
     return { total, treated, inProgress, toDo, progress };
-  }, []);
+  }, [agencies]);
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
+        <div className="h-[420px] w-full animate-pulse bg-gray-100 rounded-md" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
+        <div className="text-red-700 font-semibold">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-[20px] p-5 shadow-sm border border-border">
@@ -70,7 +122,7 @@ export default function AgenciesMap(): JSX.Element {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {AGENCIES.map((a) => (
+          {agencies.map((a) => (
             <CircleMarker
               key={a.id}
               center={[a.lat, a.lng]}
