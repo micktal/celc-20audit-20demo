@@ -34,8 +34,45 @@ export default function Dashboard() {
 
   const { logout } = useAuth();
   const [reloadKey, setReloadKey] = React.useState(0);
+  const [agencies, setAgencies] = useState<Agency[]>([]);
+  const [loadingAgencies, setLoadingAgencies] = useState(true);
+  const [errorAgencies, setErrorAgencies] = useState<string | null>(null);
+  const [selectedAgency, setSelectedAgency] = useState<Agency | null>(null);
 
   const reloadAgencies = () => setReloadKey((k) => k + 1);
+
+  useEffect(() => {
+    let mounted = true;
+    setLoadingAgencies(true);
+    setErrorAgencies(null);
+    fetch("/data/agences.json", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
+      .then((data) => {
+        if (!mounted) return;
+        const parsed: Agency[] = (data || []).map((d: any) => ({
+          id: String(d.id),
+          name: String(d.name || ""),
+          city: String(d.city || ""),
+          lat: Number(d.lat),
+          lng: Number(d.lng),
+          status: d.status === "Treated" || d.status === "InProgress" || d.status === "ToDo" ? d.status : "ToDo",
+        }));
+        setAgencies(parsed);
+        setLoadingAgencies(false);
+      })
+      .catch(() => {
+        if (!mounted) return;
+        setErrorAgencies("Erreur lors du chargement des agences.");
+        setLoadingAgencies(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [reloadKey]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--light-grey))]">
