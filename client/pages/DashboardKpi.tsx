@@ -127,7 +127,7 @@ export default function DashboardKpi() {
             </div>
 
             <div className="lg:col-span-2">
-              <RadarPriscop period={period} filter={{ agence, criticite, typologie }} />
+              <RadarPriscop />
             </div>
 
             <div className="lg:col-span-1">
