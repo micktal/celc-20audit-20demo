@@ -116,7 +116,7 @@ export default function DashboardKpi() {
           {/* Charts */}
           <section className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
-              <EvolutionIncidentsChart period={period} filter={{ agence, criticite, typologie }} />
+              <EvolutionIncidentsChart />
             </div>
             <div>
               <TypologieIncidentsChart period={period} filter={{ agence, criticite, typologie }} />
